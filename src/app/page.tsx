@@ -1,12 +1,16 @@
-import { getFunnelData, type FunnelData, type FunnelSection } from '@/lib/sheets';
-import FunnelStep from '@/components/FunnelStep';
+import {
+  getFunnelData,
+  type FunnelData,
+  type FunnelSection,
+} from "@/lib/sheets";
+import FunnelStep from "@/components/FunnelStep";
 
 export default async function Home() {
   const funnelSections = await getFunnelData();
 
   const renderSection = (section: FunnelSection) => {
     switch (section.title) {
-      case '全体':
+      case "全体":
         return (
           <div className="relative bg-gray-50/80 rounded-lg p-6 pt-8">
             <div className="overflow-x-auto">
@@ -24,7 +28,7 @@ export default async function Home() {
           </div>
         );
 
-      case 'ユーザー種別':
+      case "ユーザー種別":
         return (
           <div className="grid grid-cols-1 gap-12">
             <div className="relative bg-gray-50/80 rounded-lg p-6 pt-8">
@@ -33,14 +37,16 @@ export default async function Home() {
               </h3>
               <div className="overflow-x-auto">
                 <div className="flex flex-nowrap items-center gap-1 min-w-max pb-4">
-                  {section.data.slice(0, 8).map((data: FunnelData, index: number) => (
-                    <FunnelStep
-                      key={`new-${data.step}-${index}`}
-                      data={data}
-                      isLast={index === 7}
-                      variant="new"
-                    />
-                  ))}
+                  {section.data
+                    .slice(0, 8)
+                    .map((data: FunnelData, index: number) => (
+                      <FunnelStep
+                        key={`new-${data.step}-${index}`}
+                        data={data}
+                        isLast={index === 7}
+                        variant="new"
+                      />
+                    ))}
                 </div>
               </div>
             </div>
@@ -50,21 +56,23 @@ export default async function Home() {
               </h3>
               <div className="overflow-x-auto">
                 <div className="flex flex-nowrap items-center gap-1 min-w-max pb-4">
-                  {section.data.slice(8).map((data: FunnelData, index: number) => (
-                    <FunnelStep
-                      key={`existing-${data.step}-${index}`}
-                      data={data}
-                      isLast={index === 7}
-                      variant="existing"
-                    />
-                  ))}
+                  {section.data
+                    .slice(8)
+                    .map((data: FunnelData, index: number) => (
+                      <FunnelStep
+                        key={`existing-${data.step}-${index}`}
+                        data={data}
+                        isLast={index === 7}
+                        variant="existing"
+                      />
+                    ))}
                 </div>
               </div>
             </div>
           </div>
         );
 
-      case '職業別':
+      case "職業別":
         return (
           <div className="grid grid-cols-1 gap-12">
             <div className="relative bg-gray-50/80 rounded-lg p-6 pt-8">
@@ -73,14 +81,16 @@ export default async function Home() {
               </h3>
               <div className="overflow-x-auto">
                 <div className="flex flex-nowrap items-center gap-1 min-w-max pb-4">
-                  {section.data.slice(0, 7).map((data: FunnelData, index: number) => (
-                    <FunnelStep
-                      key={`company-${data.step}-${index}`}
-                      data={data}
-                      isLast={index === 6}
-                      variant="company"
-                    />
-                  ))}
+                  {section.data
+                    .slice(0, 7)
+                    .map((data: FunnelData, index: number) => (
+                      <FunnelStep
+                        key={`company-${data.step}-${index}`}
+                        data={data}
+                        isLast={index === 6}
+                        variant="company"
+                      />
+                    ))}
                 </div>
               </div>
             </div>
@@ -90,48 +100,64 @@ export default async function Home() {
               </h3>
               <div className="overflow-x-auto">
                 <div className="flex flex-nowrap items-center gap-1 min-w-max pb-4">
-                  {section.data.slice(7).map((data: FunnelData, index: number) => (
-                    <FunnelStep
-                      key={`freelance-${data.step}-${index}`}
-                      data={data}
-                      isLast={index === 6}
-                      variant="freelance"
-                    />
-                  ))}
+                  {section.data
+                    .slice(7)
+                    .map((data: FunnelData, index: number) => (
+                      <FunnelStep
+                        key={`freelance-${data.step}-${index}`}
+                        data={data}
+                        isLast={index === 6}
+                        variant="freelance"
+                      />
+                    ))}
                 </div>
               </div>
             </div>
           </div>
         );
 
-      case '経験年数別':
-      case '年収別':
-        const labels = section.title === '経験年数別'
-          ? ['未経験', '1年未満', '1-2年', '2-3年', '3-4年', '4年以上']
-          : ['～20万円', '20-40万円', '40-60万円', '60-80万円', '80-100万円', '100万円～'];
+      case "経験年数別":
+      case "年収別":
+        const labels =
+          section.title === "経験年数別"
+            ? ["未経験", "1年未満", "1-2年", "2-3年", "3-4年", "4年以上"]
+            : [
+                "～20万円",
+                "20-40万円",
+                "40-60万円",
+                "60-80万円",
+                "80-100万円",
+                "100万円～",
+              ];
 
-        const variant = section.title === '経験年数別' ? 'experience' : 'salary';
+        const variant =
+          section.title === "経験年数別" ? "experience" : "salary";
 
         return (
           <div className="grid grid-cols-1 gap-8">
             {labels.map((label, groupIndex) => {
               const startIndex = groupIndex * 7;
               return (
-                <div key={label} className="relative bg-gray-50/80 rounded-lg p-6 pt-8 shadow-sm hover:shadow-md transition-shadow">
+                <div
+                  key={label}
+                  className="relative bg-gray-50/80 rounded-lg p-6 pt-8 shadow-sm hover:shadow-md transition-shadow"
+                >
                   <h3 className="absolute -top-3 left-4 text-sm font-semibold text-gray-700 bg-white px-3 py-1 rounded-full border border-gray-200 shadow-sm">
                     {label}
                   </h3>
                   <div className="overflow-x-auto">
                     <div className="flex flex-nowrap items-center gap-1 min-w-max">
-                      {section.data.slice(startIndex, startIndex + 7).map((data: FunnelData, index: number) => (
-                        <FunnelStep
-                          key={`${variant}-${groupIndex}-${data.step}-${index}`}
-                          data={data}
-                          isLast={index === 6}
-                          variant={variant}
-                          index={groupIndex}
-                        />
-                      ))}
+                      {section.data
+                        .slice(startIndex, startIndex + 7)
+                        .map((data: FunnelData, index: number) => (
+                          <FunnelStep
+                            key={`${variant}-${groupIndex}-${data.step}-${index}`}
+                            data={data}
+                            isLast={index === 6}
+                            variant={variant}
+                            index={groupIndex}
+                          />
+                        ))}
                     </div>
                   </div>
                 </div>
